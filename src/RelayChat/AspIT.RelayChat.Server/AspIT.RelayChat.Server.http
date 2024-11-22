@@ -1,0 +1,6 @@
+@AspIT.RelayChat.Server_HostAddress = http://localhost:5270
+
+GET {{AspIT.RelayChat.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
