@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspIT.RelayChat.Front", "As
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspIT.RelayChat.Entities", "AspIT.RelayChat.Entities\AspIT.RelayChat.Entities.csproj", "{7AD89BEE-195A-4AA0-B3E0-A42499F07325}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspIT.RelayChat.SignalRLibrary", "AspIT.RelayChat.SignalRLibrary\AspIT.RelayChat.SignalRLibrary.csproj", "{F6CC619D-56D0-49BB-B00B-FDAA71F8E692}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7AD89BEE-195A-4AA0-B3E0-A42499F07325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AD89BEE-195A-4AA0-B3E0-A42499F07325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AD89BEE-195A-4AA0-B3E0-A42499F07325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6CC619D-56D0-49BB-B00B-FDAA71F8E692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CC619D-56D0-49BB-B00B-FDAA71F8E692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CC619D-56D0-49BB-B00B-FDAA71F8E692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CC619D-56D0-49BB-B00B-FDAA71F8E692}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
