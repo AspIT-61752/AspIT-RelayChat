@@ -14,8 +14,10 @@
             <label for="username">Username:</label>
             <InputText id="username" @bind-Value="userModel.Username" disabled="@isUsernameSet" />
         </div>
-        <div @onclick="HandleSubmit">Submit</div>
-        <button @onclick="test">Submit</button>
+        <div @onClick="HandleSubmit">Submit</div>
+        <div>
+            <button class="btn btn-primary" @onclick="test">Submit</button>
+        </div>
         <!--
         <EditForm Model="userModel" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
