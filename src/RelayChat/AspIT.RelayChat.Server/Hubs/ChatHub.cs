@@ -16,8 +16,8 @@ namespace AspIT.RelayChat.Server.Hubs
         {
             if (!users.Contains(user))
             {
-                string newUserMessage = $"{user} joined the chatroom";
-                _logger.Log(LogLevel.Information, newUserMessage);
+                string newUserMessage = $"{user} joined the chatroom"; // Debugging purposes
+                _logger.Log(LogLevel.Information, newUserMessage); // Debugging purposes
 
                 await Clients.All.ReceiveNewMessage("Server", newUserMessage);
             }
@@ -27,13 +27,13 @@ namespace AspIT.RelayChat.Server.Hubs
 
         public override Task OnConnectedAsync()
         {
-            Console.WriteLine($"New connection: {Context.ConnectionId}");
+            Console.WriteLine($"New connection: {Context.ConnectionId}"); // Debugging purposes
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            Console.WriteLine($"Connection closed: {Context.ConnectionId}");
+            Console.WriteLine($"Connection closed: {Context.ConnectionId}"); // Debugging purposes
             return base.OnDisconnectedAsync(exception);
         }
     }

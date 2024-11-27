@@ -1,4 +1,5 @@
 using AspIT.RelayChat.Front.Components;
+using AspIT.RelayChat.SignalRLibrary;
 
 namespace AspIT.RelayChat.Front
 {
@@ -11,6 +12,9 @@ namespace AspIT.RelayChat.Front
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+            builder.Services.AddSingleton<UsernameState>(); // This is a state container for the username
+            builder.Services.AddSingleton<Chat>();
 
             var app = builder.Build();
 

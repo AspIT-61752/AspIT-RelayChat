@@ -11,7 +11,14 @@ namespace AspIT.RelayChat.SignalRLibrary
         private const string ClientHandlerName = "ReceiveNewMessage";
         private const string ServerHandlerName = "SendServerMessage";
 
-        private readonly HubConnection hubConnection;
+        public readonly HubConnection hubConnection;
+
+        public Chat()
+        {
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl(hubUrl)
+                .Build();
+        }
 
         public Chat(string username)
         {

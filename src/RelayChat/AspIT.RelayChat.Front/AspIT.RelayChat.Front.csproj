@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AspIT.RelayChat.Entities\AspIT.RelayChat.Entities.csproj" />
+    <ProjectReference Include="..\AspIT.RelayChat.SignalRLibrary\AspIT.RelayChat.SignalRLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
