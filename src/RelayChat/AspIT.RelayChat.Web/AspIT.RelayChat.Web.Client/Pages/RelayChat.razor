@@ -1,4 +1,4 @@
-﻿@page "/relay-chat"
+﻿@page "/relaychat"
 @using AspIT.RelayChat.Front.Components.ChatComponents
 @using AspIT.RelayChat.SignalRLibrary
 @using Microsoft.AspNetCore.SignalR.Client
@@ -7,6 +7,8 @@
 @rendermode InteractiveWebAssembly
 
 @inject UsernameState usernameState;
+<PageTitle>Weather</PageTitle>
+
 <!-- I could probably use this on different sites, so the data, layout etc. is the same, but the chatID is different -->
 <h3>RelayChat</h3>
 <button @onclick=test>Test</button>

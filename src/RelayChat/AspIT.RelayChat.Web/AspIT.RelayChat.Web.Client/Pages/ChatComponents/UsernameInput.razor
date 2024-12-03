@@ -1,0 +1,68 @@
+﻿@using AspIT.RelayChat.Entities
+@using AspIT.RelayChat.SignalRLibrary
+@using System.Diagnostics
+@using Microsoft.Extensions.Logging
+
+@rendermode InteractiveWebAssembly
+@inject NavigationManager NavigationManager
+@inject Chat chat
+
+<div>
+    @if (!isUsernameSet)
+    {
+        <div>
+            <label for="username">Username:</label>
+            <InputText id="username" @bind-Value="userModel.Username" disabled="@isUsernameSet" />
+        </div>
+        <div @onClick="HandleSubmit">Submit</div>
+        <div>
+            <button class="btn btn-primary" @onclick="test">Submit</button>
+        </div>
+
+        <div class="test-container">
+            <p>Output: @TestText</p>
+        </div>
+        <!--
+        <EditForm Model="userModel" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+        </EditForm>
+        -->
+    }
+    else
+    {
+        <p>Welcome, @userModel.Username!</p>
+    }
+</div>
+
+@code {
+    private User userModel = new();
+    private bool isUsernameSet = false;
+    Logger<UsernameInput> log;
+    public string TestText { get; set; } = "Test";
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("Component Initialized");
+        Console.WriteLine(isUsernameSet);
+        // await InvokeAsync(StateHasChanged);
+    }
+
+    private void test()
+    {
+        Console.WriteLine("TEST!@");
+        TestText = "FROM TEST()";
+    }
+
+    public async Task HandleSubmit()
+    {
+        log.LogInformation("HandleSubmit");
+        Debug.WriteLine("HandleSubmit");
+        Console.WriteLine("HandleSubmit");
+        isUsernameSet = true;
+        // usernameState.SetUsername(userModel.Username);
+        await chat.Start();
+        await InvokeAsync(StateHasChanged);
+    }
+}

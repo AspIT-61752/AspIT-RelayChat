@@ -3,7 +3,8 @@
 @using System.Diagnostics
 @using Microsoft.Extensions.Logging
 
-@rendermode InteractiveServer
+@rendermode InteractiveWebAssembly
+@inject NavigationManager NavigationManager
 @inject UsernameState UsernameState
 @inject Chat chat
 
@@ -18,13 +19,10 @@
         <div>
             <button class="btn btn-primary" @onclick="test">Submit</button>
         </div>
-        <!--
-        <EditForm Model="userModel" OnValidSubmit="HandleSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            
-        </EditForm>
-        -->
+
+        <div class="test-container">
+            <p>Output: @TestText</p>
+        </div>
     }
     else
     {
@@ -32,31 +30,33 @@
     }
 </div>
 
-@code {
-    private User userModel = new();
-    private bool isUsernameSet = false;
-    Logger<UsernameInput> log;
+    @code {
+        private User userModel = new();
+        private bool isUsernameSet = false;
+        Logger<UsernameInput> log;
+        public string TestText { get; set; } = "Test";
 
-    protected override void OnInitialized()
-    {
-        Console.WriteLine("Component Initialized");
-        Console.WriteLine(isUsernameSet);
-        // await InvokeAsync(StateHasChanged);
-    }
+        protected override void OnInitialized()
+        {
+            Console.WriteLine("Component Initialized");
+            Console.WriteLine(isUsernameSet);
+            // await InvokeAsync(StateHasChanged);
+        }
 
-    private void test()
-    {
-        Console.WriteLine("TEST!@");
-    }
+        private void test()
+        {
+            Console.WriteLine("TEST!@");
+            TestText = "FROM TEST()";
+        }
 
-    public async Task HandleSubmit()
-    {
-        log.LogInformation("HandleSubmit");
-        Debug.WriteLine("HandleSubmit");
-        Console.WriteLine("HandleSubmit");
-        isUsernameSet = true;
-        UsernameState.SetUsername(userModel.Username);
-        await chat.Start();
-        await InvokeAsync(StateHasChanged);
-    }
+        public async Task HandleSubmit()
+        {
+            log.LogInformation("HandleSubmit");
+            Debug.WriteLine("HandleSubmit");
+            Console.WriteLine("HandleSubmit");
+            isUsernameSet = true;
+            UsernameState.SetUsername(userModel.Username);
+            await chat.Start();
+            await InvokeAsync(StateHasChanged);
+        }
 }

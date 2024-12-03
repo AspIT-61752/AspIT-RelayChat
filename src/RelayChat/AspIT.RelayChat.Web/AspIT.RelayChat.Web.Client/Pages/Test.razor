@@ -1,16 +1,16 @@
-﻿@page "/relay-chat"
-@using AspIT.RelayChat.Front.Components.ChatComponents
+﻿@page "/test"
+
+@using AspIT.RelayChat.Web.Client.Pages.ChatComponents
 @using AspIT.RelayChat.SignalRLibrary
 @using Microsoft.AspNetCore.SignalR.Client
 @inject Chat chat;
 @inject NavigationManager navigationManager
 @rendermode InteractiveWebAssembly
 
-@inject UsernameState usernameState;
+<PageTitle>Weather</PageTitle>
+
 <!-- I could probably use this on different sites, so the data, layout etc. is the same, but the chatID is different -->
 <h3>RelayChat</h3>
-<button @onclick=test>Test</button>
-<button @onclick=@test>Test2</button>
 <button @onclick="test">Test3</button>
 <UsernameInput></UsernameInput>
 
@@ -91,6 +91,22 @@ else
     private string messageInput;
     // public bool IsConnected = false; Change it later
     public bool IsConnected => chat.hubConnection?.State == HubConnectionState.Connected;
+
+    protected override void OnInitialized()
+    {
+        // usernameState.SetUsername("username");
+    }
+
+    private void HandleButtonClick()
+    {
+        Console.WriteLine("Button clicked!");
+        // Use the usernameState service
+        // if (usernameState.user.Username != "username")
+        // {
+        //     var username = usernameState.user.Username;
+        //     Console.WriteLine($"Username: {username}");
+        // }
+    }
 
     protected async Task SetUsername()
     {
