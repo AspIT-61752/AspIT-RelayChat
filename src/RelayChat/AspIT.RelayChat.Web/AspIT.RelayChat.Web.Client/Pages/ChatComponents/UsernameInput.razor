@@ -5,7 +5,7 @@
 
 @rendermode InteractiveWebAssembly
 @inject NavigationManager NavigationManager
-@inject Chat chat
+@inject Chat chat 
 
 @implements IDisposable
 @inject UsernameState usernameState
@@ -13,31 +13,21 @@
 <div>
     @if (!isUsernameSet)
     {
+        <p> Start userinput</p>
         <div>
             <label for="username">Username:</label>
-            <InputText id="username" @bind-Value="userModel.Username" disabled="@isUsernameSet" />
+            <InputText id="username" @bind-Value="UserInputName" disabled="@isUsernameSet" />
             <p>UsernameState: <b>@usernameState.user.Username</b></p>
         </div>
-        <div @onClick="HandleSubmit">Submit</div>
         <div>
-            <button class="btn btn-primary" @onclick="test">Submit</button>
+            <button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
         </div>
-
-        <div class="test-container">
-            <p>Output: @TestText</p>
-        </div>
-        <!--
-        <EditForm Model="userModel" OnValidSubmit="HandleSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-
-        </EditForm>
-        -->
     }
     else
     {
-        <p>Welcome, @userModel.Username!</p>
+        <p>Welcome, @usernameState.user.Username !</p>
     }
+    <p> End userinput</p>
 </div>
 
 @code {
@@ -45,6 +35,7 @@
     private bool isUsernameSet = false;
     Logger<UsernameInput> log;
     public string TestText { get; set; } = "Test";
+    public string UserInputName { get; set; } = "test username";
 
     protected override void OnInitialized()
     {
@@ -63,11 +54,10 @@
 
     public async Task HandleSubmit()
     {
-        log.LogInformation("HandleSubmit");
-        Debug.WriteLine("HandleSubmit");
-        Console.WriteLine("HandleSubmit");
+        usernameState.SetUsername(UserInputName);
         isUsernameSet = true;
-        // usernameState.SetUsername(userModel.Username);
+
+        // Starts the chat
         await chat.Start();
         await InvokeAsync(StateHasChanged);
     }
