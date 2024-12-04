@@ -1,9 +1,13 @@
 ﻿@page "/test"
 
+@using AspIT.RelayChat.Entities
 @using AspIT.RelayChat.Web.Client.Pages.ChatComponents
 @using AspIT.RelayChat.SignalRLibrary
 @using Microsoft.AspNetCore.SignalR.Client
 @inject Chat chat;
+
+@implements IDisposable
+@inject UsernameState usernameState
 @inject NavigationManager navigationManager
 @rendermode InteractiveWebAssembly
 
@@ -12,9 +16,10 @@
 <!-- I could probably use this on different sites, so the data, layout etc. is the same, but the chatID is different -->
 <h3>RelayChat</h3>
 <button @onclick="test">Test3</button>
+<p>Username Container: <b>@usernameState.user.Username</b></p>
 <UsernameInput></UsernameInput>
 
-@if (IsConnected)
+@if (chat.hubConnection?.State != HubConnectionState.Connected)
 {
     <!-- <input type="text" @bind="userInput" placeholder="displayname" /> -->
     <input type="text" @bind="messageInput" placeholder="message" />
@@ -29,7 +34,8 @@
 }
 else
 {
-    <span>Connecting...</span>
+    <span>Connecting <Spinner Color="SpinnerColor.Primary"/></span>
+    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Primary" />
 }
 <div class="form-group">
     <label>
@@ -94,8 +100,37 @@ else
 
     protected override void OnInitialized()
     {
-        // usernameState.SetUsername("username");
+        if (usernameState.user == null)
+        {
+            // Set a default user or handle the null scenario
+            // usernameState.user = new User("default user");
+            Console.WriteLine("usernameState.User is null");
+        }
+        chat.usernameState = this.usernameState;
+        chat.usernameState.UserChanged += StateHasChanged;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        while (usernameState.user == null)
+        {
+            await Task.Delay(100); // Wait until usernameState.user is initialized
+        }
+        chat.usernameState = this.usernameState;
+        chat.usernameState.UserChanged += StateHasChanged;
+    }
+
+    private void ChangePropertyValue()
+    {
+        chat.usernameState.SetUsername("New value set in the State " +
+            $"Container Example component: {DateTime.Now}");
+    }
+
+    public void Dispose()
+    {
+        chat.usernameState.UserChanged -= StateHasChanged;
+    }
+
 
     private void HandleButtonClick()
     {

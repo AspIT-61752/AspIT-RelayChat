@@ -5,7 +5,7 @@ namespace AspIT.RelayChat.SignalRLibrary
 {
     public class Chat
     {
-        public readonly User currentUser;
+        public UsernameState usernameState { get; set; } = new();
         private readonly string hubUrl = "http://localhost:5270/chatHub";
         public event EventHandler NewMessageReceived;
         private const string ClientHandlerName = "ReceiveNewMessage";
@@ -18,11 +18,13 @@ namespace AspIT.RelayChat.SignalRLibrary
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(hubUrl)
                 .Build();
+
+            //this.currentUser = new User("test user");
         }
 
         public Chat(string username)
         {
-            this.currentUser = new User(username);
+            this.usernameState.SetUsername(username);
 
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(hubUrl)
@@ -45,7 +47,7 @@ namespace AspIT.RelayChat.SignalRLibrary
 
         public async Task SendMessage(string message)
         {
-            await hubConnection.InvokeAsync(ServerHandlerName, currentUser.Username, message);
+            await hubConnection.InvokeAsync(ServerHandlerName, usernameState.user.Username, message);
         }
     }
 }

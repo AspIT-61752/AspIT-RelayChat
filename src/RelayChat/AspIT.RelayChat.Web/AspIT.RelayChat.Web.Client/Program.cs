@@ -12,6 +12,8 @@ namespace AspIT.RelayChat.Web.Client
             //builder.Services.AddSingleton<UsernameState>(); // This is a state container for the username
             builder.Services.AddSingleton<Chat>();
 
+            builder.Services.AddSingleton<UsernameState>(); // This is a state container for the username
+
             await builder.Build().RunAsync();
         }
     }

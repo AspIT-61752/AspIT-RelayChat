@@ -7,12 +7,16 @@
 @inject NavigationManager NavigationManager
 @inject Chat chat
 
+@implements IDisposable
+@inject UsernameState usernameState
+
 <div>
     @if (!isUsernameSet)
     {
         <div>
             <label for="username">Username:</label>
             <InputText id="username" @bind-Value="userModel.Username" disabled="@isUsernameSet" />
+            <p>UsernameState: <b>@usernameState.user.Username</b></p>
         </div>
         <div @onClick="HandleSubmit">Submit</div>
         <div>
@@ -46,6 +50,7 @@
     {
         Console.WriteLine("Component Initialized");
         Console.WriteLine(isUsernameSet);
+        usernameState.UserChanged += StateHasChanged;
         // await InvokeAsync(StateHasChanged);
     }
 
@@ -53,6 +58,7 @@
     {
         Console.WriteLine("TEST!@");
         TestText = "FROM TEST()";
+        usernameState.SetUsername("testUsername");
     }
 
     public async Task HandleSubmit()
@@ -64,5 +70,10 @@
         // usernameState.SetUsername(userModel.Username);
         await chat.Start();
         await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        usernameState.UserChanged -= StateHasChanged;
     }
 }

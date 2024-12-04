@@ -4,13 +4,16 @@ namespace AspIT.RelayChat.SignalRLibrary
 {
     public class UsernameState
     {
-        public User user { get; private set; }
+        public User user { get; private set; } = new User("username");
         public event Action? UserChanged;
 
         public void SetUsername(string username)
         {
-            user = new User(username);
-            NotifyStateChanged();
+            if (username != String.Empty)
+            {
+                user.Username = username;
+                NotifyStateChanged();
+            }
         }
 
         private void NotifyStateChanged() => UserChanged?.Invoke();

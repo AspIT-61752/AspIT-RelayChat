@@ -9,6 +9,7 @@ namespace AspIT.RelayChat.Web
     {
         public static void Main(string[] args)
         {
+            // https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management?view=aspnetcore-9.0&pivots=server#browser-storage-server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -17,6 +18,8 @@ namespace AspIT.RelayChat.Web
 
             builder.Services.AddSignalR();
             builder.Services.AddSingleton<Chat>();
+
+            builder.Services.AddScoped<UsernameState>(); // This is a state container for the username
 
             var app = builder.Build();
 
