@@ -1,0 +1,68 @@
+﻿@using AspIT.RelayChat.Entities
+@using AspIT.RelayChat.SignalRLibrary
+@using System.Diagnostics
+@using Microsoft.Extensions.Logging
+
+@inject NavigationManager NavigationManager
+@inject Chat chat
+
+@implements IDisposable
+@inject UsernameState usernameState
+
+<div>
+    @if (!isUsernameSet)
+    {
+        <p> Start userinput</p>
+        <div>
+            <label for="username">Username:</label>
+            <InputText id="username" @bind-Value="UserInputName" disabled="@isUsernameSet" />
+            <p>UsernameState: <b>@usernameState.user.Username</b></p>
+        </div>
+        <div>
+            <button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
+        </div>
+    }
+    else
+    {
+        <p>Welcome, @usernameState.user.Username !</p>
+    }
+    <p> End userinput</p>
+</div>
+
+@code {
+    private User userModel = new();
+    private bool isUsernameSet = false;
+    Logger<UsernameInput> log;
+    public string TestText { get; set; } = "Test";
+    public string UserInputName { get; set; } = "test username";
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("Component Initialized");
+        Console.WriteLine(isUsernameSet);
+        usernameState.UserChanged += StateHasChanged;
+        // await InvokeAsync(StateHasChanged);
+    }
+
+    private void test()
+    {
+        Console.WriteLine("TEST!@");
+        TestText = "FROM TEST()";
+        usernameState.SetUsername("testUsername");
+    }
+
+    public async Task HandleSubmit()
+    {
+        usernameState.SetUsername(UserInputName);
+        isUsernameSet = true;
+
+        // Starts the chat
+        await chat.Start();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        usernameState.UserChanged -= StateHasChanged;
+    }
+}
