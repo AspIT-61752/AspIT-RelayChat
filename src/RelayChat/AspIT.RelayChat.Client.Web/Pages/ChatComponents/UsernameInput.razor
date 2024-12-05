@@ -30,17 +30,21 @@
 </div>
 
 @code {
+    [Parameter]
+    public EventCallback OnSubmittedUsername { get; set; }
+
     private User userModel = new();
     private bool isUsernameSet = false;
     Logger<UsernameInput> log;
     public string TestText { get; set; } = "Test";
     public string UserInputName { get; set; } = "test username";
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
         Console.WriteLine("Component Initialized");
         Console.WriteLine(isUsernameSet);
         usernameState.UserChanged += StateHasChanged;
+        await OnSubmittedUsername.InvokeAsync();
         // await InvokeAsync(StateHasChanged);
     }
 
@@ -58,7 +62,8 @@
 
         // Starts the chat
         await chat.Start();
-        await InvokeAsync(StateHasChanged);
+        await OnSubmittedUsername.InvokeAsync();
+
     }
 
     public void Dispose()

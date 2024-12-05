@@ -12,13 +12,26 @@
 
 <PageTitle>Weather</PageTitle>
 
+<!--<button @onclick="TestStateChanged">Test StateHasChanged</button>-->
 <!-- I could probably use this on different sites, so the data, layout etc. is the same, but the chatID is different -->
 <h3>RelayChat</h3>
+
+@if (chat.hubConnection?.State != HubConnectionState.Connected){
+    <span>Connecting <p>❌</p></span>
+}
+else
+{
+    <span>Connected <p>✔</p></span>
+}
+
+<span></span>
 <p>Username Container: <b>@usernameState.user.Username</b></p>
-<UsernameInput></UsernameInput>
+
+<UsernameInput OnSubmittedUsername="() => RunStateChanged()"></UsernameInput>
 
 @if (chat.hubConnection?.State == HubConnectionState.Connected)
 {
+    <h1>Chat is connected</h1>
     <!-- <input type="text" @bind="userInput" placeholder="displayname" /> -->
     <input type="text" @bind="messageInput" placeholder="Your message..." />
     <button @onclick="SendMsg">Send</button>
@@ -29,24 +42,12 @@
             <li>@message</li>
         }
     </ul>
-}
-else
-{
     <span>Connecting <Spinner Color="SpinnerColor.Primary"/></span>
-    <Spinner Type="SpinnerType.Dots" Class="me-3" Color="SpinnerColor.Primary" />
 }
-<div class="form-group">
-    <label>
-        User: <input @bind="userInput" />
-    </label>
-</div>
-<div class="form-group">
-    <label>
-        Message: <input @bind="messageInput" size="50" />
-    </label>
-</div>
 
 <hr>
+
+<input type="text" class="form-control" placeholder="Type a message..." />
 
 <ul id="messagesList">
     @foreach (var message in messages)
@@ -143,7 +144,7 @@ else
 
     protected async Task SetUsername()
     {
-        
+
         // chat.Start();
         // private bool connected;
         // IsConnected = connected;
@@ -151,11 +152,17 @@ else
 
     private async Task SendMsg()
     {
-        
+
     }
 
     public void test()
     {
         Console.WriteLine("TEST!@");
+    }
+
+    private void RunStateChanged()
+    {
+        StateHasChanged();
+        Console.WriteLine("State has changed");
     }
 }
