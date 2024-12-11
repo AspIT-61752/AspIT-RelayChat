@@ -11,7 +11,7 @@ namespace AspIT.RelayChat.Server
 
             // Add services to the container.
 
-            //builder.Services.AddControllers();
+            builder.Services.AddControllers();
             builder.Services.AddSignalR();
             builder.Services.AddLogging();
 
@@ -37,7 +37,7 @@ namespace AspIT.RelayChat.Server
             app.UseAuthorization();
 
 
-            //app.MapControllers();
+            app.MapControllers();
 
             app.MapHub<ChatHub>("/chatHub");
             app.Run();

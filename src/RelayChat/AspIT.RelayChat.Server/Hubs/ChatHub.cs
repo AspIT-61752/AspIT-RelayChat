@@ -33,7 +33,7 @@ namespace AspIT.RelayChat.Server.Hubs
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            Console.WriteLine($"Connection closed: {Context.ConnectionId}"); // Debugging purposes
+            Console.WriteLine($"Connection closed: {Context.ConnectionId} => {exception.Message}"); // Debugging purposes
             return base.OnDisconnectedAsync(exception);
         }
     }
