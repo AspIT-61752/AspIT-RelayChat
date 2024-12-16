@@ -10,9 +10,13 @@
 @inject UsernameState usernameState
 @inject NavigationManager navigationManager
 
+<!-- Used to make the UX better -->
+@inject IJSRuntime jsRuntime
+
 <PageTitle>RelayChat</PageTitle>
 <head>
-    <link href="~/css/RelayChat.css" rel="stylesheet" />
+    <link href="css/RelayChat.css" rel="stylesheet" />
+    <script src="js/RelayChat.js" defer></script>
 </head>
 
 <h3>RelayChat</h3>
@@ -37,25 +41,29 @@
 <!-- This HAS to be here, otherwise the chat won't work -->
 <UsernameInput OnSubmittedUsername="() => RunStateChanged()"></UsernameInput>
 
-<!-- The list of messages, I'll have to fix the styling and scrolling issues at some point -->
-<ul id="messagesList">
-    @foreach (var message in messages)
-    {
-        <!-- TODO: remove the inline styling. And get the css files to work -->
-        <li style="display: flex;"><b>@message.Sender.Username</b>: @message.Message</li>
-    }
-</ul>
+<div class="chat-container">
+    <div class="message-container">
+        <!-- The list of messages, I'll have to fix the styling and scrolling issues at some point -->
+        <ul id="messagesList">
+            @foreach (var message in messages)
+            {
+                <!-- TODO: remove the inline styling. And get the css files to work -->
+                <li><b>@message.Sender.Username</b>: @message.Message</li>
+            }
+        </ul>
+    </div>
 
-<hr>
+    <div class="input-container">
+        <!-- The input field and the button to send a message -->
+        @if (chat.hubConnection?.State == HubConnectionState.Connected)
+        {
+            <input type="text" @bind="messageInput" @oninput="e => messageInput = e.Value.ToString()" @onkeydown="HandleKeyPress" placeholder="Your message..." />
+            <button @onclick="SendMsg">Send</button>
+        }
+    </div>
+</div>
 
-<!-- The input field and the button to send a message -->
-@if (chat.hubConnection?.State == HubConnectionState.Connected)
-{
-    <h1>Chat is connected</h1>
-    <input type="text" @bind="messageInput" @oninput="e => messageInput = e.Value.ToString()" @onkeydown="HandleKeyPress" placeholder="Your message..." />
-    <button @onclick="SendMsg">Send</button>
-    <span>Connecting <Spinner Color="SpinnerColor.Primary"/></span>
-}
+
 
 
 
@@ -126,4 +134,19 @@
             await SendMsg();
         }
     }
+
+    // === === JavaScript Helpers === ===
+    private async Task ScrollToBottom()
+    {
+        await jsRuntime.InvokeVoidAsync("scrollToBottom");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (messages.Any())
+        {
+            await ScrollToBottom();
+        }
+    }
+
 }

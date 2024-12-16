@@ -12,11 +12,9 @@
 <div>
     @if (!isUsernameSet)
     {
-        <p> Start userinput</p>
         <div>
             <label for="username">Username:</label>
             <InputText id="username" @bind-Value="UserInputName" disabled="@isUsernameSet" />
-            <p>UsernameState: <b>@usernameState.user.Username</b></p>
         </div>
         <div>
             <button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
@@ -26,7 +24,6 @@
     {
         <p>Welcome, @usernameState.user.Username !</p>
     }
-    <p> End userinput</p>
 </div>
 
 @code {
