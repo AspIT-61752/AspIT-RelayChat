@@ -41,6 +41,8 @@ namespace AspIT.RelayChat.SignalRLibrary
         {
             hubConnection.On<string, string>(ClientHandlerName, (user, message) =>
             {
+                Console.WriteLine($"Message received from {user}: {message}");
+
                 NewMessageReceived?.Invoke(this, new MessageReceivedEventArgs() { User = user, Message = message });
             });
         }

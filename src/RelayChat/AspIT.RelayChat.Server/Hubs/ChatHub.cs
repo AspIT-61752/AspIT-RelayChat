@@ -14,27 +14,31 @@ namespace AspIT.RelayChat.Server.Hubs
 
         public async Task SendServerMessage(string user, string message)
         {
+            _logger.LogInformation($"SendServerMessage called with user: {user}, message: {message}");
+
             if (!users.Contains(user))
             {
                 string newUserMessage = $"{user} joined the chatroom"; // Debugging purposes
                 _logger.Log(LogLevel.Information, newUserMessage); // Debugging purposes
 
+                users.Add(user);
                 await Clients.All.ReceiveNewMessage("Server", newUserMessage);
             }
 
             await Clients.All.ReceiveNewMessage(user, message);
         }
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             Console.WriteLine($"New connection: {Context.ConnectionId}"); // Debugging purposes
-            return base.OnConnectedAsync();
+            await Clients.Client(Context.ConnectionId).ReceiveNewMessage(Context.ConnectionId, "Welcome to the chatroom!"); // Debugging purposes
+            await base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
             Console.WriteLine($"Connection closed: {Context.ConnectionId} => {exception.Message}"); // Debugging purposes
-            return base.OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }
