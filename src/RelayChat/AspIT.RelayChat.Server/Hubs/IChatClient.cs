@@ -1,7 +1,9 @@
-﻿namespace AspIT.RelayChat.Server.Hubs
+﻿using AspIT.RelayChat.Entities;
+
+namespace AspIT.RelayChat.Server.Hubs
 {
     public interface IChatClient
     {
-        Task ReceiveNewMessage(string user, string message);
+        Task ReceiveNewMessage(ChatMessage chatMessage);
     }
 }

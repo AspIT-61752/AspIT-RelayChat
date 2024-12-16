@@ -39,17 +39,17 @@ namespace AspIT.RelayChat.SignalRLibrary
 
         private async Task Connect()
         {
-            hubConnection.On<string, string>(ClientHandlerName, (user, message) =>
+            hubConnection.On<ChatMessage>(ClientHandlerName, chatMessage =>
             {
-                Console.WriteLine($"Message received from {user}: {message}");
+                Console.WriteLine($"Message received from {chatMessage.Sender.Username}: {chatMessage.Message}");
 
-                NewMessageReceived?.Invoke(this, new MessageReceivedEventArgs() { User = user, Message = message });
+                NewMessageReceived?.Invoke(this, new MessageReceivedEventArgs() { User = chatMessage.Sender.Username, Message = chatMessage.Message });
             });
         }
 
-        public async Task SendMessage(string message)
+        public async Task SendMessage(ChatMessage msg)
         {
-            await hubConnection.InvokeAsync(ServerHandlerName, usernameState.user.Username, message);
+            await hubConnection.InvokeAsync(ServerHandlerName, msg);
         }
     }
 }
