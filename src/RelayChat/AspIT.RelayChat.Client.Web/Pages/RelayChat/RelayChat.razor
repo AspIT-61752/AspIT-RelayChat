@@ -52,7 +52,7 @@
 @if (chat.hubConnection?.State == HubConnectionState.Connected)
 {
     <h1>Chat is connected</h1>
-    <input type="text" @bind="messageInput" placeholder="Your message..." />
+    <input type="text" @bind="messageInput" @oninput="e => messageInput = e.Value.ToString()" @onkeydown="HandleKeyPress" placeholder="Your message..." />
     <button @onclick="SendMsg">Send</button>
     <span>Connecting <Spinner Color="SpinnerColor.Primary"/></span>
 }
@@ -117,5 +117,13 @@
     {
         StateHasChanged();
         Console.WriteLine("State has changed");
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SendMsg();
+        }
     }
 }
