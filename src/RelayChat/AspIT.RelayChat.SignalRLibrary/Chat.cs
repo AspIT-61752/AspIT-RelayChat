@@ -5,23 +5,27 @@ namespace AspIT.RelayChat.SignalRLibrary
 {
     public class Chat
     {
-        public UsernameState usernameState { get; set; } = new();
-        private readonly string hubUrl = "http://localhost:5270/chatHub";
+        public UsernameState usernameState { get; set; } = new(); // The statecontainer for the username
+        private readonly string hubUrl = "http://localhost:5270/chatHub"; // The URL of the hub
         public event EventHandler NewMessageReceived;
-        private const string ClientHandlerName = "ReceiveNewMessage";
-        private const string ServerHandlerName = "SendServerMessage";
 
-        public readonly HubConnection hubConnection;
+        // The name of the method in the hub that the client will call
+        private const string ClientHandlerName = "ReceiveNewMessage"; // Receives a message from the server
+        private const string ServerHandlerName = "SendServerMessage"; // Sends a message to the server
+
+        public readonly HubConnection hubConnection; // readonly because it should not be changed after it has been set
 
         public Chat()
         {
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(hubUrl)
                 .Build();
-
-            //this.currentUser = new User("test user");
         }
 
+        /// <summary>
+        /// Sets the username of the user and creates a connection to the hub
+        /// </summary>
+        /// <param name="username"></param>
         public Chat(string username)
         {
             this.usernameState.SetUsername(username);
@@ -31,12 +35,20 @@ namespace AspIT.RelayChat.SignalRLibrary
                 .Build();
         }
 
+        /// <summary>
+        /// Starts the connection to the hub and connects to the hub
+        /// </summary>
+        /// <returns></returns>
         public async Task Start()
         {
             await hubConnection.StartAsync();
             await Connect();
         }
 
+        /// <summary>
+        /// Connects to the hub
+        /// </summary>
+        /// <returns></returns>
         private async Task Connect()
         {
             hubConnection.On<ChatMessage>(ClientHandlerName, chatMessage =>
@@ -47,6 +59,11 @@ namespace AspIT.RelayChat.SignalRLibrary
             });
         }
 
+        /// <summary>
+        /// Sends a message to the hub. The hub will then broadcast the message to all connected clients
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public async Task SendMessage(ChatMessage msg)
         {
             await hubConnection.InvokeAsync(ServerHandlerName, msg);
