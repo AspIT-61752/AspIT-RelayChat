@@ -1,6 +1,6 @@
 ﻿window.scrollToBottom = function () {
-    const messagesContainer = document.querySelector('.message-container');
-    if (messagesContainer) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    const container = document.getElementById('messageContainer');
+    if (container) {
+        container.scrollTop = container.scrollHeight;
     }
 };
