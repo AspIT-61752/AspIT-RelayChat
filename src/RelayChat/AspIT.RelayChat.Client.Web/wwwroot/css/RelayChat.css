@@ -1,95 +1,168 @@
 ﻿:root {
-    --input-gap: 10px;
-    --input-border-radius: 6px;
-    --input-width: 40vw;
+  --input-gap: 10px;
+  --input-border-radius: 6px;
+  --input-width: 40vw;
+
+  /* LIGHT THEME */
+
+  --text-color: black;
+  --text-color-bold: black;
+  --input-color: #007fff;
+  --input-color-background: #f9f9f9;
+  --input-text-color: black;
+  --bg-color: #f9f9f9;
+  --border-color: #ccc;
+
+  /* DARK THEME */
+  /* --text-color: #f2f2ef;
+  --text-color-bold: #9db9cf;
+  --input-color: #5f5ca5;
+  --input-color-background: hsl(242, 29%, 40%);
+  --input-text-color: #fff;
+  --bg-color: #1c2048;
+  --border-color: #689cdc; */
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Background container */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    #f07eb3,
+    #0000ff,
+    #ff6589,
+    #00f0ff,
+    #ff4545
+  );
+  background-size: 400% 400%;
+  animation: moveBackground 20s cubic-bezier(0, 0.46, 1, 0.28) infinite;
+  /*cubic-bezier(0, 0.46, 1, 0.28)*/
+  /*cubic-bezier(0.75, 0.02, 0.63, 0.69)*/
+  z-index: -1;
+}
+
+.background::after {
+  position: relative;
+  z-index: 1;
+}
+
+/* Background animation */
+@keyframes moveBackground {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .connection-container > * {
-    display: flex;
-    flex-direction: row;
-/*    align-items: center;*/
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  /*    align-items: center;*/
+  gap: 10px;
 }
-
 /* Chat Container */
 .chat-container {
-    display: flex;
-    flex-direction: column;
-
-    /* Full height of area */
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Full height of area */
+  height: 100%;
+  width: 100%;
 }
-
 /* Chat Window Container */
 .chat-window {
-    width: var(--input-width);
-    height: 50vh;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+  width: var(--input-width);
+  height: 50vh;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-color);
 }
-
 /* Messages Container */
 .message-container {
-    height: 100%;
-    padding: 0.8vw;
-
-    /* Enable scrolling and then smooth scrolling */
-    overflow-y: auto;
-    scroll-behavior: smooth; 
+  height: 100%;
+  padding: 0.8vw;
+  /* Enable scrolling and then smooth scrolling */
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 #messages-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .chat-message {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  word-wrap: break-word;
+  color: var(--text-color);
+}
 
-    margin-bottom: 8px;
-    font-size: 14px;
-    word-wrap: break-word;
+.chat-message b {
+  font-weight: bold;
+  color: var(--text-color-bold);
 }
 
 /* Input Area */
 .input-container {
-    display: flex;
-    /* I think a fixed distance between the chat window and input fields looks better + consistensy */
-    margin-top: 10px; 
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: var(--input-border-radius);
-    width: var(--input-width); /* TODO: Match the width of the chat window. Should probably change this to a variable */
+  display: flex;
+  /* I think a fixed distance between the chat window and input fields looks better + consistensy */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--input-border-radius);
+  width: var(
+    --input-width
+  ); /* TODO: Match the width of the chat window. Should probably change this to a variable */
 }
 
 .input-container label {
-    display: flex;
-    align-self: center;
-    margin-right: var(--input-gap);
+  display: flex;
+  align-self: center;
+  margin-right: var(--input-gap);
 }
 
 .input-container input {
-    /* https://developer.mozilla.org/en-US/docs/Web/CSS/flex */
-    flex: 1;
-    padding: 6px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: var(--input-border-radius);
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/flex */
+  flex: 1;
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--input-border-radius);
+  background-color: var(--input-color-background);
+  color: var(--input-text-color);
 }
 
 .input-container button {
-    margin-left: var(--input-gap);
-    padding: 2% 4%;
-    font-size: 14px;
-    background-color: #007fff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    }
+  margin-left: var(--input-gap);
+  padding: 2% 4%;
+  font-size: 14px;
+  background-color: var(--input-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
