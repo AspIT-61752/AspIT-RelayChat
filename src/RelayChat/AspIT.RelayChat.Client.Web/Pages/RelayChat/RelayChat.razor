@@ -24,11 +24,11 @@
 <!-- This will display the connection status of the chat -->
 <div class="connection-container">
     @if (chat.hubConnection?.State != HubConnectionState.Connected){
-        <span>Connecting <p>❌</p></span>
+        <span>Connection Status: <p>❌</p></span>
     }
     else
     {
-        <span>Connected <p>✔</p></span>
+        <span>Connection Status: <p>✔</p></span>
     }
 </div>
 
