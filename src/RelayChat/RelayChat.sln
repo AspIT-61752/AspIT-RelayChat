@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspIT.RelayChat.Entities", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspIT.RelayChat.SignalRLibrary", "AspIT.RelayChat.SignalRLibrary\AspIT.RelayChat.SignalRLibrary.csproj", "{F6CC619D-56D0-49BB-B00B-FDAA71F8E692}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspIT.RelayChat.Client.Web", "AspIT.RelayChat.Client.Web\AspIT.RelayChat.Client.Web.csproj", "{7B0C7085-47FF-4777-BE4B-990BCD1172B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspIT.RelayChat.Client.Web", "AspIT.RelayChat.Client.Web\AspIT.RelayChat.Client.Web.csproj", "{7B0C7085-47FF-4777-BE4B-990BCD1172B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

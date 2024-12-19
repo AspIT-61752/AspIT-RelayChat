@@ -1,7 +1,13 @@
-﻿.connection-container > * {
+﻿:root {
+    --input-gap: 10px;
+    --input-border-radius: 6px;
+    --input-width: 40vw;
+}
+
+.connection-container > * {
     display: flex;
     flex-direction: row;
-    align-items: center;
+/*    align-items: center;*/
     gap: 10px;
 }
 
@@ -17,8 +23,8 @@
 
 /* Chat Window Container */
 .chat-window {
-    width: 40vw; 
-    height: 50vh; 
+    width: var(--input-width);
+    height: 50vh;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
@@ -58,8 +64,14 @@
     padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 40vw; /* TODO: Match the width of the chat window. Should probably change this to a variable */
+    border-radius: var(--input-border-radius);
+    width: var(--input-width); /* TODO: Match the width of the chat window. Should probably change this to a variable */
+}
+
+.input-container label {
+    display: flex;
+    align-self: center;
+    margin-right: var(--input-gap);
 }
 
 .input-container input {
@@ -68,11 +80,11 @@
     padding: 6px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: var(--input-border-radius);
 }
 
 .input-container button {
-    margin-left: 10px;
+    margin-left: var(--input-gap);
     padding: 2% 4%;
     font-size: 14px;
     background-color: #007fff;
@@ -80,4 +92,4 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
+    }

@@ -12,17 +12,17 @@
 <div>
     @if (!isUsernameSet)
     {
-        <div>
-            <label for="username">Username:</label>
-            <InputText id="username" @bind-Value="UserInputName" disabled="@isUsernameSet" />
-        </div>
-        <div>
-            <button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
+        <div class="chat-container">
+            <div class="input-container">
+                <label for="username">Username:</label>
+                <InputText id="username" @bind-Value="UserInputName" disabled="@isUsernameSet" />
+                <button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
+            </div>
         </div>
     }
     else
     {
-        <p>Welcome, @usernameState.user.Username !</p>
+        <p>Welcome, <b>@usernameState.user.Username</b>!</p>
     }
 </div>
 

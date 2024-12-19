@@ -1,4 +1,4 @@
-﻿@page "/relaychat"
+﻿@page "/"
 
 @using AspIT.RelayChat.Entities
 @using AspIT.RelayChat.Client.Web.Pages.ChatComponents
@@ -41,29 +41,30 @@
 <!-- This HAS to be here, otherwise the chat won't work -->
 <UsernameInput OnSubmittedUsername="() => RunStateChanged()"></UsernameInput>
 
-<div class="chat-container">
-    <div class="chat-window">
-        <div class="message-container" id="messageContainer">
-            <!-- The list of messages, I'll have to fix the styling and scrolling issues at some point -->
-            <ul id="messages-list">
-                @foreach (var message in messages)
-                {
-                    <!-- TODO: remove the inline styling. And get the css files to work -->
-                    <li class="chat-message"><b>@message.Sender.Username</b>: @message.Message</li>
-                }
-            </ul>
+@if (chat.hubConnection?.State == HubConnectionState.Connected)
+{
+    <div class="chat-container">
+        <div class="chat-window">
+            <div class="message-container" id="messageContainer">
+                <!-- The list of messages, I'll have to fix the styling and scrolling issues at some point -->
+                <ul id="messages-list">
+                    @foreach (var message in messages)
+                    {
+                        <!-- TODO: remove the inline styling. And get the css files to work -->
+                        <li class="chat-message"><b>@message.Sender.Username</b>: @message.Message</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <!-- The input field and the button to send a message -->
+        
+                <input type="text" @bind="messageInput" @oninput="e => messageInput = e.Value.ToString()" @onkeydown="HandleKeyPress" placeholder="Your message..." />
+                <button @onclick="SendMsg">Send</button>
         </div>
     </div>
-
-    <div class="input-container">
-        <!-- The input field and the button to send a message -->
-        @if (chat.hubConnection?.State == HubConnectionState.Connected)
-        {
-            <input type="text" @bind="messageInput" @oninput="e => messageInput = e.Value.ToString()" @onkeydown="HandleKeyPress" placeholder="Your message..." />
-            <button @onclick="SendMsg">Send</button>
-        }
-    </div>
-</div>
+}
 
 
 
